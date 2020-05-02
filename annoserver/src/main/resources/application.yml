@@ -1,0 +1,9 @@
+anno:
+  appName: AnnoServerHost
+  port: 6690
+  weight: 1
+  timeOut: 2000
+  funcName: anno.componentservice
+  centerIp: 127.0.0.1
+  centerPort: 6660
+  reTry: 30
