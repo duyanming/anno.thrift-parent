@@ -9,11 +9,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public class Engine {
-    /// <summary>
-    /// 转发器
-    /// </summary>
-    /// <param name="input">表单数据</param>
-    /// <returns></returns>
+    /**
+     * 转发器
+     * @param input 表单数据
+     * @return
+     * @throws Exception
+     */
     public static ActionResult Transmit(Map<String, String> input) throws Exception {
         //①通过类装载器获取Car类对象
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -49,7 +50,12 @@ public class Engine {
 
     }
 
-    //获取业务方法需要的参数
+    /**
+     * 获取业务方法需要的参数
+     * @param method
+     * @param input
+     * @return
+     */
     private static Object[] GetRequestInfo(Method method, Map<String, String> input) {
         Parameter[] params = method.getParameters();
         Object[] objs = new Object[params.length];
@@ -84,7 +90,12 @@ public class Engine {
         return objs;
     }
 
-    //获取处理方法
+    /**
+     * 获取处理方法
+     * @param clazz
+     * @param input
+     * @return
+     */
     private static Method GetRequestMethod(Class clazz, Map<String, String> input) {
         Method processMethod = null;
         for (Method method : clazz.getMethods()) {

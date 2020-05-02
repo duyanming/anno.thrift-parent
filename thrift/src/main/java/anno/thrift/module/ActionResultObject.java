@@ -7,41 +7,41 @@ public class ActionResultObject extends ActionResult<Object> {
         super();
     }
 
-    /// <summary>
-/// 构造函数
-/// </summary>
-/// <param name="status">状态</param>
+    /**
+     * 构造函数
+     * @param status
+     */
     public ActionResultObject(Boolean status) {
         super(status);
     }
 
-    /// <summary>
-/// 构造函数
-/// </summary>
-/// <param name="status">状态</param>
-/// <param name="outputData">结果集</param>
+    /**
+     * 构造函数
+     * @param status
+     * @param outputData
+     */
     public ActionResultObject(Boolean status, Object outputData) {
-        super(status,outputData);
+        super(status, outputData);
     }
 
-    /// <summary>
-/// 构造函数
-/// </summary>
-/// <param name="status">状态</param>
-/// <param name="outputData">结果集</param>
-/// <param name="output">字典</param>
+    /**
+     * 构造函数
+     * @param status
+     * @param outputData
+     * @param output
+     */
     public ActionResultObject(Boolean status, Object outputData, HashMap<String, Object> output) {
-        super(status, outputData,output);
+        super(status, outputData, output);
     }
 
-    /// <summary>
-/// 构造函数
-/// </summary>
-/// <param name="status">状态</param>
-/// <param name="outputData">结果集</param>
-/// <param name="output">字典</param>
-/// <param name="msg">消息</param>
+    /**
+     * 构造函数
+     * @param status
+     * @param outputData
+     * @param output
+     * @param msg
+     */
     public ActionResultObject(Boolean status, Object outputData, HashMap<String, Object> output, String msg) {
-        super(status, outputData, output,msg);
+        super(status, outputData, output, msg);
     }
 }

@@ -16,10 +16,10 @@ public class Register {
     static TTransport transport;
     static BrokerCenter.Client client;
 
-    /*
-    注册服务到注册中心
-    tIp：注册中心地址
-    tPort：注册中心端口
+    /**
+     *注册服务到注册中心
+     *tIp：注册中心地址
+     *tPort：注册中心端口
      */
     public static void ToCenter(String tIp, int tPort, int countDown) throws InterruptedException {
         String ipsStr = GetLocalIps();
@@ -74,10 +74,10 @@ public class Register {
         }
     }
 
-    /// <summary>
-    /// 获取本机IPv4集合字符串
-    /// </summary>
-    /// <returns></returns>
+    /**
+     * 获取本机IPv4集合字符串
+     * @return
+     */
     private static String GetLocalIps() {
         StringBuilder ipsBuilder = new StringBuilder();
         try {
