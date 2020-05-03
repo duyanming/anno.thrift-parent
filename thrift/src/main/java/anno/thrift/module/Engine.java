@@ -62,12 +62,14 @@ public class Engine {
         for (int i = 0; i < params.length; i++) {
             String typeName = params[i].getType().getName();
             if (input.containsKey(params[i].getName())) {
-                if (!typeName.startsWith("java.lang.")) {//不是基本类型
+                if (!typeName.startsWith("java.lang.")&&!typeName.equals("int")) {//不是基本类型
                     objs[i] = JSON.parseObject(input.get(params[i].getName()),params[i].getType());
                 } else if (typeName.equals(String.class)) {
                     objs[i] = input.get(params[i].getName());
                 } else if (typeName.equals(Integer.class)) {
                     objs[i] = Integer.parseInt(input.get(params[i].getName()));
+                }  else if (typeName.equals(int.class)) {
+                    objs[i] = (int)Integer.parseInt(input.get(params[i].getName()));
                 } else if (typeName.equals(Long.class)) {
                     objs[i] = Long.parseLong(input.get(params[i].getName()));
                 } else if (typeName.equals(Double.class)) {
