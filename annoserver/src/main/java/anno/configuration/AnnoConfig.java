@@ -18,6 +18,8 @@ public class AnnoConfig {
     private String centerIp;
     private int centerPort;
     private int reTry;
+    private int minThreads = 4;
+    private int maxThreads = 500;
 
     public AnnoConfig(String configFilePath) throws IOException {
         if (configFilePath == null) {
@@ -31,11 +33,13 @@ public class AnnoConfig {
                 appName = (String) map.getOrDefault("appName", "annoServer");
                 port = (Integer) map.getOrDefault("port", 6659);
                 weight = (Integer) map.getOrDefault("weight", 1);
-                timeOut = (Integer) map.getOrDefault("timeOut", "2000");
+                timeOut = (Integer) map.getOrDefault("timeOut", 20000);
                 funcName = (String) map.getOrDefault("funcName", "");
                 centerIp = (String) map.getOrDefault("centerIp", "127.0.0.1");
-                centerPort = (Integer) map.getOrDefault("centerPort", "6660");
-                reTry = (Integer) map.getOrDefault("reTry", "60");
+                centerPort = (Integer) map.getOrDefault("centerPort", 6660);
+                reTry = (Integer) map.getOrDefault("reTry", 60);
+                minThreads = (Integer) map.getOrDefault("minThreads", 4);
+                maxThreads = (Integer) map.getOrDefault("maxThreads", 500);
             } catch (Exception ex) {
                 throw ex;
             }

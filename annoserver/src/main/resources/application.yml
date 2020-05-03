@@ -1,9 +1,21 @@
 anno:
+  #服务名称
   appName: AnnoServerHost
+  #服务的端口
   port: 6690
+  #服务的权重
   weight: 1
-  timeOut: 2000
+  #服务的超时时间
+  timeOut: 20000
+  #服务的功能Tag
   funcName: anno.componentservice
+  #服务端最新闲置线程数
+  minThreads: 4
+  #服务端最大线程数
+  maxThreads: 500
+  #注册中地址
   centerIp: 127.0.0.1
+  #注册中心端口
   centerPort: 6660
+  #注册到注册中心失败后重试次数
   reTry: 30

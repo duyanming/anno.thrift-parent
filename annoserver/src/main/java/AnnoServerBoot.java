@@ -17,12 +17,14 @@ public class AnnoServerBoot {
         serverInfo.setWeight(config.getWeight());
         serverInfo.setTimeOut(config.getTimeOut());
         serverInfo.setFuncName(config.getFuncName());
+        serverInfo.setMinThreads(config.getMinThreads());
+        serverInfo.setMaxThreads(config.getMaxThreads());
 
         new Thread(() -> {
-            new AnnoServer().start(ServerInfo.getDefault().getPort());
+            new AnnoServer().start(serverInfo.getPort());
         }).start();
 
-        anno.thrift.server.Register.ToCenter(config.getCenterIp(), config.getCenterPort(), 60);
+        anno.thrift.server.Register.ToCenter(config.getCenterIp(), config.getCenterPort(), config.getReTry());
         while (true) {
             Thread.sleep(3000);
         }

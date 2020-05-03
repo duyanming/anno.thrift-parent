@@ -11,10 +11,13 @@ import org.apache.thrift.transport.TTransportFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class AnnoServer {
+    ServerInfo serverInfo=ServerInfo.getDefault();
     protected final Logger logger = LoggerFactory.getLogger(AnnoServer.class);
-    private int maxThreads=500;
     private TBinaryProtocol.Factory protocolFactory;
     private TTransportFactory transportFactory;
     public void init() {
@@ -24,20 +27,20 @@ public class AnnoServer {
     public void start(int port) {
         BrokerService.Processor  processor = new BrokerService.Processor<BrokerService.Iface>(new BrokerServiceImp());
         init();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         try {
             TServerTransport transport = new TServerSocket(port);
             TThreadPoolServer.Args tArgs = new TThreadPoolServer.Args(transport);
             tArgs.processor(processor);
             tArgs.protocolFactory(protocolFactory);
             tArgs.transportFactory(transportFactory);
-            int minThreads = 4;
-            tArgs.minWorkerThreads(minThreads);
-            tArgs.maxWorkerThreads(maxThreads);
+            tArgs.minWorkerThreads(serverInfo.getMinThreads());
+            tArgs.maxWorkerThreads(serverInfo.getMaxThreads());
             TServer server = new TThreadPoolServer(tArgs);
-            logger.info("Anno服务启动成功, 端口={}", port);
+            System.out.println(df.format(new Date())+"--------Anno Service started successfully, Port="+port);
             server.serve();
         } catch (Exception e) {
-            logger.error("Anno服务启动失败", e);
+            logger.error(df.format(new Date())+"--------Anno Service startup failure", e);
         }
     }
 }

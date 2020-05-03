@@ -42,19 +42,18 @@ public class Register {
             boolean rlt = client.add_broker(input);
             transport.close();
             if (rlt) {
-                System.out.println(df.format(new Date()));
-                System.out.println("本机【" + ServerInfo.getDefault().getAppName() + "】:");
+                System.out.println(df.format(new Date())+"--------Service Name:" + ServerInfo.getDefault().getAppName());
                 for (String ip : ipsStr.split(",")) {
-                    System.out.println(ip);
+                    System.out.println(df.format(new Date())+"--------Service IP:"+ip);
                 }
-                System.out.println("已注册到：" + tIp + ":" + tPort);
+                System.out.println(df.format(new Date())+"--------Registered to：" + tIp + ":" + tPort);
                 System.out.println("----------------------------------------------------------------- ");
             }
         } catch (Exception ex) {
             Thread.sleep(1000);
             if (countDown > 0) {
-                System.out.println("" + df.format(new Date()) + "注册到" + tIp + ":" + tPort + "失败......剩余重试次数" + countDown);
-                System.out.println(ex.getMessage());
+                System.out.println(df.format(new Date())+"--------Registered to " + tIp + ":" + tPort + "Failure,Number of remaining retries:" + countDown);
+                System.out.println(df.format(new Date())+"--------"+ex.getMessage());
                 try {
                     if (transport.isOpen()) {
                         transport.close();
@@ -65,7 +64,7 @@ public class Register {
                 --countDown;
                 ToCenter(tIp, tPort, countDown);
             } else {
-                System.out.println("" + df.format(new Date()) + "未连接到" + tIp + ":" + tPort + "注册失败......");
+                System.out.println(df.format(new Date())+"--------Not connected to " + tIp + ":" + tPort + "registration failed......");
             }
         } finally {
             if (transport.isOpen()) {

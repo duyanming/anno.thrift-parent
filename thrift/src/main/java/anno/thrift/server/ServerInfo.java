@@ -3,21 +3,24 @@ package anno.thrift.server;
 import lombok.Data;
 
 @Data
-public  class ServerInfo {
+public class ServerInfo {
     private static ServerInfo Default;
-    private int TimeOut=3000;
+    private int TimeOut = 3000;
     private String FuncName;
-    private String LocalAddress="127.0.0.1";
-    private int Port=6659;
-    private  int Weight=1;
-    private String AppName="AnnoServer";
+    private String LocalAddress = "127.0.0.1";
+    private int Port = 6659;
+    private int Weight = 1;
+    private String AppName = "AnnoServer";
+    private int MinThreads = 4;
+    private int MaxThreads = 500;
 
-    private ServerInfo(){
+    private ServerInfo() {
 
     }
+
     public static ServerInfo getDefault() {
-        if(Default==null){
-            Default=new ServerInfo();
+        if (Default == null) {
+            Default = new ServerInfo();
         }
         return Default;
     }

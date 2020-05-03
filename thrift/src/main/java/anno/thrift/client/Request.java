@@ -1,6 +1,7 @@
 package anno.thrift.client;
 
 import anno.thrift.rpc.BrokerService;
+import anno.thrift.server.ServerInfo;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TSocket;
@@ -17,7 +18,7 @@ public class Request{
         protocol = new TBinaryProtocol(transport);
         client = new BrokerService.Client(protocol);
         transport.setConnectTimeout(3000);
-        transport.setTimeout(20000);
+        transport.setTimeout(ServerInfo.getDefault().getTimeOut());
     }
 
     public String Invoke(Map<String,String> input) throws TException {
