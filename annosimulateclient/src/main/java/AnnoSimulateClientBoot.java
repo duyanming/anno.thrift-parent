@@ -6,10 +6,11 @@ public class AnnoSimulateClientBoot {
         DefaultConfigManager.SetDefaultConnectionPool(200, 4, 50);
         DefaultConfigManager.SetDefaultConfiguration("AnnoClient", "127.0.0.1", 6660);
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 20; i++) {
             new requestTest().Request1();
-            System.out.printf("End"+i);
+//            new requestTest().Request1AnnoNet(i);
+            System.out.println("End"+i);
         }
-        System.out.printf("End All");
+        System.out.println("End All");
     }
 }

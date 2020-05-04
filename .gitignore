@@ -2,3 +2,15 @@
 /.idea/*
 /*.log
 
+/annoserver/.settings
+/.project
+/.settings/org.eclipse.m2e.core.prefs
+/annoserver/.classpath
+/annoserver/.factorypath
+/annoserver/.project
+/thrift/.classpath
+/thrift/.factorypath
+/thrift/.project
+/thrift/.settings/org.eclipse.jdt.apt.core.prefs
+/thrift/.settings/org.eclipse.jdt.core.prefs
+/thrift/.settings/org.eclipse.m2e.core.prefs

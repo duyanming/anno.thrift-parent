@@ -1,11 +1,15 @@
 package anno.thrift.client;
 
+import anno.thrift.module.ActionResult;
 import anno.thrift.module.Eng;
 import anno.thrift.rpc.BrokerCenter;
 import anno.thrift.rpc.BrokerService;
 import anno.thrift.rpc.Micro;
 import anno.thrift.server.ServerInfo;
+import com.alibaba.fastjson.JSON;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -13,21 +17,42 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransportException;
 
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Data
+
 public class Connector {
     private static volatile Map<String, ConnectionPool> pools = new HashMap<>();
-
     private static volatile List<MicroCache> microCaches = new ArrayList<>();
 
-    private String host;
-    private int port;
-
+    /**
+     * 调用业务
+     *
+     * @param input
+     * @return
+     * @throws Exception
+     */
     public static String Invoke(Map<String, String> input) throws Exception {
         MicroCache micro = Single(input.get(Eng.NAMESPACE));
+        String rlt = Invoke(input, micro);
+        return rlt;
+    }
+
+    /**
+     * 根据指定的Micro 信息调用指定业务的服务
+     *
+     * @param input
+     * @param micro
+     * @return
+     * @throws Exception
+     */
+    public static String Invoke(Map<String, String> input, MicroCache micro) throws Exception {
+        if (!input.containsKey(Eng.NAMESPACE) || !input.containsKey(Eng.CLASS) ||
+                !input.containsKey(Eng.METHOD)) {
+            return FailMessage("Missing keywords（" + Eng.NAMESPACE + "、" + Eng.CLASS + "、" + Eng.METHOD + "）");
+        }
         if (micro == null) {
             return FailMessage("The target service was not found");
         }
@@ -47,6 +72,32 @@ public class Connector {
             }
         }
         return rlt;
+    }
+
+    /**
+     * 调用业务 返回对象
+     *
+     * @param input
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    public static <T> ActionResult<T> InvokeObj(Map<String, String> input) throws Exception {
+        String rlt = Invoke(input);
+        return JSON.parseObject(rlt, new ActionResult<T>().getClass());
+    }
+
+    /**
+     * 根据指定的Micro 信息调用指定业务的服务
+     * @param input
+     * @param micro
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    public static <T> ActionResult<T> InvokeObj(Map<String, String> input, MicroCache micro) throws Exception {
+        String rlt = Invoke(input, micro);
+        return JSON.parseObject(rlt, new ActionResult<T>().getClass());
     }
 
     private static TSocket transport = new TSocket(ServerInfo.getDefault().getLocalAddress(), ServerInfo.getDefault().getPort());
