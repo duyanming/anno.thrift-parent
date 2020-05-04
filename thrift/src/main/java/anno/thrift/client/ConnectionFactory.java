@@ -25,16 +25,14 @@ public class ConnectionFactory extends BasePooledObjectFactory<TTransportExt> {
     @Override
     public TTransportExt create() throws Exception {
         TTransportExt tTransportExt = new TTransportExt();
-        BrokerService.Client client = null;
-        TBinaryProtocol protocol = null;
-        TSocket transport = null;
-
-        transport = new TSocket(this.Ip, this.Port);
-        protocol = new TBinaryProtocol(transport);
-        client = new BrokerService.Client(protocol);
+        TSocket transport = new TSocket(this.Ip, this.Port);
+        TBinaryProtocol protocol = new TBinaryProtocol(transport);
+        BrokerService.Client client = new BrokerService.Client(protocol);
         transport.setConnectTimeout(3000);
         transport.setTimeout(ServerInfo.getDefault().getTimeOut());
-
+        if(transport.isOpen()==false){
+            transport.open();
+        }
         tTransportExt.setTransport(transport);
         tTransportExt.setClient(client);
         return tTransportExt;
@@ -53,6 +51,7 @@ public class ConnectionFactory extends BasePooledObjectFactory<TTransportExt> {
     @Override
     public void destroyObject(PooledObject<TTransportExt> p) throws Exception {
         if (p.getObject().getTransport().isOpen()) {
+            p.getObject().getTransport().flush();
             p.getObject().getTransport().close();
         }
         super.destroyObject(p);

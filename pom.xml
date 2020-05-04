@@ -10,6 +10,7 @@
     <modules>
         <module>thrift</module>
         <module>annoserver</module>
+        <module>annosimulateclient</module>
     </modules>
     <packaging>pom</packaging>
     <build>

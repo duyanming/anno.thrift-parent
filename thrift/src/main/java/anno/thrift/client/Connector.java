@@ -99,58 +99,71 @@ public class Connector {
      * @param channel
      */
     public static void UpdateCache(String channel) throws TException {
-
-        if (!transport.isOpen()) {
-            transport.open();
-        }
-        List<Micro> micros = client.GetMicro(channel);
-        if (micros != null) {
-            /**
-             *销毁注册中心没有的服务
-             */
-            int size = microCaches.size();
-            for (int i = 0; i < size; i++) {
-                MicroCache microCache = microCaches.get(i);
-                if (micros.stream()
-                        .filter(micro -> micro.ip == microCache.getMi().ip && micro.port == microCache.getMi().port).count() <= 0) {
-
-                    ConnectionPool connectionPool = pools.remove(microCache.getId());
-                    connectionPool.clear();
-                    connectionPool.close();
-                }
+        try {
+            if (!transport.isOpen()) {
+                transport.open();
             }
+            List<Micro> micros = client.GetMicro(channel);
+            if (micros != null) {
+                /**
+                 *销毁注册中心没有的服务
+                 */
+                int size = microCaches.size();
+                for (int i = 0; i < size; i++) {
+                    MicroCache microCache = microCaches.get(i);
+                    String ip = microCache.getMi().ip;
+                    Integer port = microCache.getMi().port;
+                    Boolean exist = false;
+                    for (Micro m : micros) {
+                        if (m.getIp().equals(ip) && m.getPort() == port) {
+                            exist = true;
+                        }
+                    }
+                    if (exist) {
 
-            /**
-             *创建连接池
-             */
-            ServerInfo serverInfo = ServerInfo.getDefault();
-            micros.forEach(m ->
-            {
-                MicroCache microCache = new MicroCache();
-                microCache.setLasTime(new Date());
-                microCache.setMi(m);
-                List<String> tags = new ArrayList<>();
-                String[] funcs = m.getName().split(",");
-                for (String tag : funcs) {
-                    if (tag.length() > 7) {
-                        tags.add(tag.substring(0, tag.length() - 7));
+                        ConnectionPool connectionPool = pools.remove(microCache.getId());
+                        connectionPool.close();
+                        microCaches.remove(microCache);
                     }
                 }
-                microCache.setTags(tags);
-                if (!pools.containsKey(microCache.getId())) {
-                    ConnectionFactory orderFactory = new ConnectionFactory(m.ip, m.port);
-                    GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 
-                    config.setMaxTotal(DefaultConfigManager.getDefaultConnectionPoolConfiguration().getMaxActive());
-                    //设置获取连接超时时间
-                    config.setMaxWaitMillis(1000);
-                    config.setMaxIdle(DefaultConfigManager.getDefaultConnectionPoolConfiguration().getMaxIdle());
-                    config.setMinIdle(DefaultConfigManager.getDefaultConnectionPoolConfiguration().getMinIdle());
+                /**
+                 *创建连接池
+                 */
+                ServerInfo serverInfo = ServerInfo.getDefault();
+                micros.forEach(m ->
+                {
+                    MicroCache microCache = new MicroCache();
+                    microCache.setLasTime(new Date());
+                    microCache.setMi(m);
+                    List<String> tags = new ArrayList<>();
+                    String[] funcs = m.getName().split(",");
+                    for (String tag : funcs) {
+                        if (tag.length() > 7) {
+                            tags.add(tag.substring(0, tag.length() - 7));
+                        }
+                    }
+                    microCache.setTags(tags);
+                    microCaches.add(microCache);
+                    if (!pools.containsKey(microCache.getId())) {
+                        ConnectionFactory orderFactory = new ConnectionFactory(m.ip, m.port);
+                        GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 
-                    ConnectionPool connectionPool = new ConnectionPool(orderFactory, config);
-                    pools.put(microCache.getId(), connectionPool);
-                }
-            });
+                        config.setMaxTotal(DefaultConfigManager.getDefaultConnectionPoolConfiguration().getMaxActive());
+                        //设置获取连接超时时间
+                        config.setMaxWaitMillis(1000);
+                        config.setMaxIdle(DefaultConfigManager.getDefaultConnectionPoolConfiguration().getMaxIdle());
+                        config.setMinIdle(DefaultConfigManager.getDefaultConnectionPoolConfiguration().getMinIdle());
+
+                        ConnectionPool connectionPool = new ConnectionPool(orderFactory, config);
+                        pools.put(microCache.getId(), connectionPool);
+                    }
+                });
+            }
+        } catch (Exception ex) {
+            transport = new TSocket(ServerInfo.getDefault().getLocalAddress(), ServerInfo.getDefault().getPort());
+            protocol = new TBinaryProtocol(transport);
+            client = new BrokerCenter.Client(protocol);
         }
     }
 }
