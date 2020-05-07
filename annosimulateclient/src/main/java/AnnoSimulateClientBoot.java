@@ -7,7 +7,7 @@ import java.util.concurrent.CyclicBarrier;
 
 public class AnnoSimulateClientBoot {
     public static void main(String[] args) throws Exception {
-        DefaultConfigManager.SetDefaultConnectionPool(200, 4, 50);
+        DefaultConfigManager.SetDefaultConnectionPool(500, 4, 50);
         DefaultConfigManager.SetDefaultConfiguration("AnnoClient", "127.0.0.1", 6660);
         CyclicBarrier cb = new CyclicBarrier(2000+1 );
         for (int i = 0; i < 2000; i++) {

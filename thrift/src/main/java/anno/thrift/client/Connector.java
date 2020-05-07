@@ -20,11 +20,12 @@ import org.apache.thrift.transport.TTransportException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 
 public class Connector {
-    private static volatile Map<String, ConnectionPool> pools = new HashMap<>();
+    private static volatile ConcurrentHashMap<String, ConnectionPool> pools = new ConcurrentHashMap<>();
     private static volatile List<MicroCache> microCaches = new ArrayList<>();
 
     /**
@@ -61,7 +62,7 @@ public class Connector {
         TTransportExt tTransportExt = null;
         if (pool != null) {
             try {
-                tTransportExt = pool.borrowObject();
+                tTransportExt = pool.borrowObject(micro.getMi().timeout);
                 rlt = tTransportExt.getClient().broker(input);
             } catch (Exception ex) {
                 rlt = FailMessage(ex.getMessage());
@@ -70,6 +71,8 @@ public class Connector {
                     pool.returnObject(tTransportExt);
                 }
             }
+        }else {
+            rlt = FailMessage("No object pool was found");
         }
         return rlt;
     }
@@ -122,8 +125,8 @@ public class Connector {
      * @return
      */
     public static String FailMessage(String message, Boolean status) {
-        return "{\"Msg\":\"" + message + "\",\"Status\":" + status.toString().toLowerCase() +
-                ",\"Output\":null,\"OutputData\":null}";
+        return "{\"msg\":\"" + message + "\",\"status\":" + status.toString().toLowerCase() +
+                ",\"output\":null,\"outputData\":null}";
     }
 
     /**
@@ -170,7 +173,7 @@ public class Connector {
                             exist = true;
                         }
                     }
-                    if (exist) {
+                    if (!exist) {
 
                         ConnectionPool connectionPool = pools.remove(microCache.getId());
                         connectionPool.close();
