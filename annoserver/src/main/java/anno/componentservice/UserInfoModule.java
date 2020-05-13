@@ -1,6 +1,7 @@
 package anno.componentservice;
 
 import anno.componentservice.Models.UserInfo;
+import anno.thrift.annotation.AnnoParam;
 import anno.thrift.module.ActionResult;
 import anno.thrift.module.BaseModule;
 
@@ -22,5 +23,9 @@ public class UserInfoModule extends BaseModule {
         outputData.put("userinfo",userinfo);
        String msg= "this message from Java Server UserInfoModule.";
         return new ActionResult<Object>(true, outputData, output, msg);
+    }
+    public ActionResult<Object> HelloWorld(@AnnoParam(name = "name",required = false,defaultValue = "Anno Default Value") String anno){
+        String greetings="Hello "+anno+" I am Anno!";
+        return  new ActionResult<>(true,greetings);
     }
 }

@@ -11,23 +11,24 @@ import java.util.concurrent.CyclicBarrier;
 
 public class AnnoSimulateClientBoot {
   public static void main(String[] args) throws Exception {
-    //        Rpc();
+            Rpc();
     //        new oshiDemo().Handle();
-    new StorageDemo().Request();
+//    new StorageDemo().Request();
     System.out.println("End All");
   }
 
   private static void Rpc() throws TException, BrokenBarrierException, InterruptedException {
     DefaultConfigManager.SetDefaultConnectionPool(500, 4, 50);
     DefaultConfigManager.SetDefaultConfiguration("AnnoClient", "127.0.0.1", 6660);
-    CyclicBarrier cb = new CyclicBarrier(2000 + 1);
-    for (int i = 0; i < 2000; i++) {
+    Integer count=10;
+    CyclicBarrier cb = new CyclicBarrier(count + 1);
+    for (int i = 0; i < count; i++) {
       int finalI = i;
       new Thread(
               () -> {
                 try {
                   System.out.println("task begin:" + finalI);
-                  new requestTest().Request1();
+                  new requestTest().RequestParam();
                   System.out.println("task end:" + finalI);
                   cb.await();
                 } catch (Exception e) {

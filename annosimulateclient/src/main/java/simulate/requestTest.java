@@ -33,4 +33,14 @@ public class requestTest {
         ActionResult<String> actionResult = Connector.InvokeObj(input);
         System.out.println(actionResult);
     }
+
+    public void RequestParam() throws Exception {
+        Map<String, String> input = new HashMap<>();
+        input.put(Eng.NAMESPACE,"anno.component");
+        input.put(Eng.CLASS,"UserInfo");
+        input.put(Eng.METHOD,"HelloWorld");
+        input.put("name","Jack");
+        ActionResult<HashMap<String,Object>> actionResult = Connector.InvokeObj(input);
+        System.out.println(actionResult);
+    }
 }
