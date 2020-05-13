@@ -14,3 +14,9 @@
 /thrift/.settings/org.eclipse.jdt.apt.core.prefs
 /thrift/.settings/org.eclipse.jdt.core.prefs
 /thrift/.settings/org.eclipse.m2e.core.prefs
+/annoserver/annoserver.iml
+/annosimulateclient/.project
+/annosimulateclient/.settings/org.eclipse.m2e.core.prefs
+/annosimulateclient/annosimulateclient.iml
+/thrift-parent.iml
+/thrift/thrift.iml
