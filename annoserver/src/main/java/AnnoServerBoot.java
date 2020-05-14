@@ -11,6 +11,7 @@ import java.io.IOException;
 public class AnnoServerBoot {
     public static void main(String[] args) throws InterruptedException, IOException {
 //        SpringAop();
+//        SpringAopPublishMsg();
         AnnoConfig config=new AnnoConfig("application.yml");
          /*
         配置服务基础信息 从配置文件读取
@@ -46,5 +47,6 @@ public class AnnoServerBoot {
         UserInfoModule userInfoModule= context.getBean("userInfoModule",UserInfoModule.class);
         userInfoModule.PublishMsg("Spring-Aop");
         userInfoModule.PublishMsg("杜燕明");
+        System.out.println("Publish End");
     }
 }

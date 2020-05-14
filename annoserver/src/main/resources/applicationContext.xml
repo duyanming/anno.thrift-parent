@@ -15,7 +15,7 @@
     <aop:aspectj-autoproxy/>
 
     <!-- 指定自动搜索Bean组件，自动搜索切面类 -->
-    <context:component-scan base-package="anno.componentservice">
+    <context:component-scan base-package="anno.componentservice,anno.configuration">
 <!--        <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />-->
     </context:component-scan>
 </beans>

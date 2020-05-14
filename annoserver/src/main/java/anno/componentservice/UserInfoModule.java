@@ -2,6 +2,7 @@ package anno.componentservice;
 
 import anno.componentservice.Models.UserInfo;
 import anno.componentservice.events.UserEvent;
+import anno.configuration.AnnoTheadPool;
 import anno.thrift.annotation.AnnoParam;
 import anno.thrift.module.ActionResult;
 import anno.thrift.module.BaseModule;
@@ -45,7 +46,21 @@ public class UserInfoModule extends BaseModule {
         UserEvent uv=new UserEvent();
         uv.setId(10010);
         uv.setName(name);
-        publisher.publishEvent(uv);
-
+        /**
+         * 线程池方式发布事件
+         */
+        AnnoTheadPool.getPool().execute(()->{
+            publisher.publishEvent(uv);
+        });
+/**
+ * 发布事件异步 创建线程
+ */
+//        new Thread(()->{
+//            publisher.publishEvent(uv);
+//        }).start();
+        /**
+         * 直接发布事件 同步
+         */
+//        publisher.publishEvent(uv);
     }
 }

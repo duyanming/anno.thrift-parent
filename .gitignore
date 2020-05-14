@@ -20,3 +20,7 @@
 /annosimulateclient/annosimulateclient.iml
 /thrift-parent.iml
 /thrift/thrift.iml
+/annosimulateclient/.classpath
+/annosimulateclient/.factorypath
+/annosimulateclient/.settings/org.eclipse.jdt.apt.core.prefs
+/annosimulateclient/.settings/org.eclipse.jdt.core.prefs
