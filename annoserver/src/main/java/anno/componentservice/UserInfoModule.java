@@ -3,9 +3,14 @@ package anno.componentservice;
 import anno.componentservice.Models.UserInfo;
 import anno.componentservice.events.UserEvent;
 import anno.configuration.AnnoTheadPool;
+import anno.configuration.MyBatisPlusConfig;
+import anno.entities.SysMember;
+import anno.repository.SysMemberMapper;
 import anno.thrift.annotation.AnnoParam;
 import anno.thrift.module.ActionResult;
 import anno.thrift.module.BaseModule;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -13,12 +18,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.HashMap;
 @Service
 //@Scope("prototype")
 public class UserInfoModule extends BaseModule {
     @Resource
     private ApplicationEventPublisher publisher;
+    @Resource
+    private  SysMemberMapper sysMemberMapper;
     public ActionResult<Object> GetUserInfo(GetUserInfoRequestDto queryInput){
         UserInfo userinfo=new UserInfo();
         userinfo.setAge(18);
@@ -62,5 +70,11 @@ public class UserInfoModule extends BaseModule {
          * 直接发布事件 同步
          */
 //        publisher.publishEvent(uv);
+    }
+
+
+    public SysMember  GetUserAutowired(long id) throws IOException {
+        SysMember member=sysMemberMapper.selectById(id);
+        return member;
     }
 }

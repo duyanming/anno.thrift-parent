@@ -15,7 +15,27 @@
     <aop:aspectj-autoproxy/>
 
     <!-- 指定自动搜索Bean组件，自动搜索切面类 -->
-    <context:component-scan base-package="anno.componentservice,anno.configuration">
+    <context:component-scan base-package="anno.componentservice,anno.configuration,anno.repository">
 <!--        <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />-->
     </context:component-scan>
+
+    <!-- mybatis和spring完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 加载mybatis配置文件 -->
+        <property name="configLocation" value="classpath:mybatis.cfg.xml" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+
+        <!-- 别名处理 -->
+        <property name="typeAliasesPackage" value="anno.entities"></property>
+        <!-- 配置插件 -->
+        <property name="plugins">
+            <list>
+                <!-- 分页插件 -->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
+            </list>
+        </property>
+
+    </bean>
 </beans>

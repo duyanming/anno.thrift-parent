@@ -1,6 +1,8 @@
 import anno.componentservice.UserInfoModule;
 import anno.configuration.AnnoConfig;
 import anno.configuration.AopConfig;
+import anno.configuration.MyBatisPlusConfig;
+import anno.entities.SysMember;
 import anno.thrift.module.ActionResult;
 import anno.thrift.server.AnnoServer;
 import anno.thrift.server.ServerInfo;
@@ -12,6 +14,7 @@ public class AnnoServerBoot {
     public static void main(String[] args) throws InterruptedException, IOException {
 //        SpringAop();
 //        SpringAopPublishMsg();
+        MybatisPlus();
         AnnoConfig config=new AnnoConfig("application.yml");
          /*
         配置服务基础信息 从配置文件读取
@@ -48,5 +51,12 @@ public class AnnoServerBoot {
         userInfoModule.PublishMsg("Spring-Aop");
         userInfoModule.PublishMsg("杜燕明");
         System.out.println("Publish End");
+    }
+
+    private static  void  MybatisPlus() throws IOException {
+        ApplicationContext context = AopConfig.Default();
+        UserInfoModule userInfoModule= context.getBean("userInfoModule",UserInfoModule.class);
+        SysMember sysMember= userInfoModule.GetUserAutowired(299935790530562L);
+        System.out.println(sysMember);
     }
 }
