@@ -1,11 +1,16 @@
+import anno.componentservice.UserInfoModule;
 import anno.configuration.AnnoConfig;
+import anno.configuration.AopConfig;
+import anno.thrift.module.ActionResult;
 import anno.thrift.server.AnnoServer;
 import anno.thrift.server.ServerInfo;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
 public class AnnoServerBoot {
     public static void main(String[] args) throws InterruptedException, IOException {
+//        SpringAop();
         AnnoConfig config=new AnnoConfig("application.yml");
          /*
         配置服务基础信息 从配置文件读取
@@ -28,5 +33,18 @@ public class AnnoServerBoot {
         while (true) {
             Thread.sleep(3000);
         }
+    }
+    private static void SpringAop(){
+        ApplicationContext context = AopConfig.Default();
+        UserInfoModule userInfoModule= context.getBean("userInfoModule",UserInfoModule.class);
+        ActionResult<Object> rlt = userInfoModule.HelloWorld("Spring-Aop");
+        System.out.println(rlt);
+    }
+
+    private static void SpringAopPublishMsg(){
+        ApplicationContext context = AopConfig.Default();
+        UserInfoModule userInfoModule= context.getBean("userInfoModule",UserInfoModule.class);
+        userInfoModule.PublishMsg("Spring-Aop");
+        userInfoModule.PublishMsg("杜燕明");
     }
 }
