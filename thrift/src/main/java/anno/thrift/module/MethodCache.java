@@ -8,6 +8,7 @@ import java.lang.reflect.Parameter;
 
 @Data
 public class MethodCache {
+    private  Class clazz;
     private Constructor constructor;
     private Method process;
     private Method init;

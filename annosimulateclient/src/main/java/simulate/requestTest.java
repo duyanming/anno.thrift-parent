@@ -38,8 +38,8 @@ public class requestTest {
         Map<String, String> input = new HashMap<>();
         input.put(Eng.NAMESPACE,"anno.component");
         input.put(Eng.CLASS,"UserInfo");
-        input.put(Eng.METHOD,"HelloWorld");
-        input.put("name","Jack");
+        input.put(Eng.METHOD,"GetUserAutowired");
+        input.put("id","299935790530562");
         ActionResult<HashMap<String,Object>> actionResult = Connector.InvokeObj(input);
         System.out.println(actionResult);
     }

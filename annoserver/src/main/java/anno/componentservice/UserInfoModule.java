@@ -73,8 +73,8 @@ public class UserInfoModule extends BaseModule {
     }
 
 
-    public SysMember  GetUserAutowired(long id) throws IOException {
+    public ActionResult<SysMember> GetUserAutowired(long id) throws IOException {
         SysMember member=sysMemberMapper.selectById(id);
-        return member;
+        return new ActionResult<>(true,member);
     }
 }

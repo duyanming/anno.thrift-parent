@@ -1,5 +1,7 @@
 package anno.configuration;
 
+import anno.thrift.module.EnginStrategy;
+import anno.thrift.module.Engine;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
 import org.apache.ibatis.io.Resources;
@@ -25,5 +27,11 @@ public class MyBatisPlusConfig {
         dataSource.setUsername("bif");
         dataSource.setPassword("123456");
         return dataSource;
+    }
+    @Bean
+    public EnginStrategy getMyEnginStrategy(){
+        EnginStrategy enginStrategy=new MyEnginStrategy();
+        Engine.enginStrategy=enginStrategy;
+        return  enginStrategy;
     }
 }

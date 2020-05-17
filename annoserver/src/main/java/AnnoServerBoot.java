@@ -14,7 +14,8 @@ public class AnnoServerBoot {
     public static void main(String[] args) throws InterruptedException, IOException {
 //        SpringAop();
 //        SpringAopPublishMsg();
-        MybatisPlus();
+//        MybatisPlus();
+        AopConfig.Default();
         AnnoConfig config=new AnnoConfig("application.yml");
          /*
         配置服务基础信息 从配置文件读取
@@ -56,7 +57,7 @@ public class AnnoServerBoot {
     private static  void  MybatisPlus() throws IOException {
         ApplicationContext context = AopConfig.Default();
         UserInfoModule userInfoModule= context.getBean("userInfoModule",UserInfoModule.class);
-        SysMember sysMember= userInfoModule.GetUserAutowired(299935790530562L);
+        ActionResult<SysMember> sysMember = userInfoModule.GetUserAutowired(299935790530562L);
         System.out.println(sysMember);
     }
 }

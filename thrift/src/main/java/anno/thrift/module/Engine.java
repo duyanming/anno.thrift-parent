@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Engine {
+
+  public static EnginStrategy enginStrategy = new DefaultEnginStrategy();
   private static ConcurrentHashMap<String, MethodCache> processMethods = new ConcurrentHashMap<>();
   /**
    * 转发器
@@ -24,8 +26,11 @@ public class Engine {
   public static ActionResult Transmit(Map<String, String> input) throws Exception {
     StringBuilder sb = new StringBuilder();
     sb.append(input.get(Eng.NAMESPACE));
+    sb.append("service");
+    sb.append(".");
     sb.append(input.get(Eng.CLASS));
-    sb.append(input.get(Eng.METHOD));
+    sb.append("Module");
+
     String key=sb.toString();
     MethodCache mc = processMethods.get(key);
     if (mc != null) {
@@ -33,17 +38,10 @@ public class Engine {
     }
     // ①通过类装载器获取 Process类对象
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
-    sb = new StringBuilder();
-    sb.append(input.get(Eng.NAMESPACE));
-    sb.append("service");
-    sb.append(".");
-    sb.append(input.get(Eng.CLASS));
-    sb.append("Module");
-
     Class clazz = loader.loadClass(sb.toString());
     // ②获取类的默认构造器对象并通过它实例化Car
     Constructor cons = clazz.getDeclaredConstructor((Class[]) null);
-    Object module = cons.newInstance();
+    Object module =enginStrategy.GetProcessInstance(clazz);
     Method init = clazz.getMethod("Init", HashMap.class);
     boolean initRlt = (boolean) init.invoke(module, input);
     if (initRlt) {
@@ -59,6 +57,7 @@ public class Engine {
         rlt = (ActionResult) processMethod.invoke(module, objs);
         new Thread(()->{
          MethodCache methodCache= new MethodCache();
+          methodCache.setClazz(clazz);
           methodCache.setConstructor(cons);
           methodCache.setInit(init);
           methodCache.setProcess(processMethod);
@@ -192,16 +191,16 @@ public class Engine {
   }
 
   private static ActionResult InvokeFromCache(MethodCache mc, Map<String, String> input)
-      throws IllegalAccessException, InvocationTargetException, InstantiationException {
-    System.out.println("From Cache");
-    Object module = mc.getConstructor().newInstance();
+          throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
+    Object module = enginStrategy.GetProcessInstance(mc.getClazz());
     boolean initRlt = (boolean) mc.getInit().invoke(module, input);
     if (initRlt) {
       ActionResult rlt;
       try {
         Object[] objs = GetRequestInfo(mc.getParameters(), input);
         rlt = (ActionResult) mc.getProcess().invoke(module, objs);
-      } catch (Exception ex) {
+      }
+      catch (Exception ex) {
         rlt =
             new ActionResultObject(
                 false,
