@@ -19,11 +19,12 @@ public class DefaultConfigManager {
         SetDefaultConfiguration(appName, centerAddress, 6660);
     }
 
-    public static void SetDefaultConfiguration(String appName, String centerAddress, Integer port) throws TException {
+    public static void SetDefaultConfiguration(String appName, String centerAddress, Integer port,Boolean traceOnOff) throws TException {
         ServerInfo serverInfo = ServerInfo.getDefault();
         serverInfo.setAppName(appName);
         serverInfo.setLocalAddress(centerAddress);
         serverInfo.setPort(port);
+        serverInfo.setTraceOnOff(traceOnOff);
         Connector.UpdateCache("");
         // 启动0秒后，每隔2秒执行1次
         timer.schedule(new MyTimerTask(() -> {
@@ -32,9 +33,12 @@ public class DefaultConfigManager {
             } catch (TException e) {
                 e.printStackTrace();
             }
+            TracePool.TryDequeue();
         }), 5000, 5000);
     }
-
+    public static void SetDefaultConfiguration(String appName, String centerAddress, Integer port) throws TException {
+        SetDefaultConfiguration(appName,centerAddress, port,true);
+    }
     /**
      * 设置连接池信息
      *

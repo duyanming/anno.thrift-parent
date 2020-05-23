@@ -4,7 +4,6 @@ import anno.thrift.rpc.BrokerService;
 import anno.thrift.module.ActionResult;
 import anno.thrift.module.Engine;
 import com.alibaba.fastjson.JSON;
-import org.apache.thrift.TException;
 
 import java.util.Map;
 

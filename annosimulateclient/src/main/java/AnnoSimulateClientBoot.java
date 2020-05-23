@@ -28,7 +28,7 @@ public class AnnoSimulateClientBoot {
               () -> {
                 try {
                   System.out.println("task begin:" + finalI);
-                  new requestTest().RequestParam();
+                  new requestTest().Request1AnnoNet(finalI);
                   System.out.println("task end:" + finalI);
                   cb.await();
                 } catch (Exception e) {

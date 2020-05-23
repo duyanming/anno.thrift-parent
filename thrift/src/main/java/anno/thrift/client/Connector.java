@@ -61,6 +61,7 @@ public class Connector {
         String rlt = "";
         TTransportExt tTransportExt = null;
         if (pool != null) {
+            sys_trace trace = TransmitTrace.SetTraceId(input, micro.getMi());
             try {
                 tTransportExt = pool.borrowObject(micro.getMi().timeout);
                 rlt = tTransportExt.getClient().broker(input);
@@ -70,6 +71,7 @@ public class Connector {
                 if (tTransportExt != null) {
                     pool.returnObject(tTransportExt);
                 }
+                TracePool.EnQueue(trace, rlt);
             }
         }else {
             rlt = FailMessage("No object pool was found");
