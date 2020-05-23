@@ -3,10 +3,7 @@ package anno.thrift.client;
 import anno.thrift.module.Eng;
 import com.alibaba.fastjson.JSON;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -17,7 +14,7 @@ public class TracePool {
 
     public static void EnQueue(sys_trace trace, String result) {
         if (trace != null) {
-            trace.setUseTimeMs(System.currentTimeMillis() - trace.getTimespan());
+            trace.setUseTimeMs(System.currentTimeMillis() - trace.getTimespan().getTime());
             trace.setRequest(result);
             TraceQueue.add(trace);
         }
@@ -25,7 +22,7 @@ public class TracePool {
 
     public static sys_trace CreateTrance(Map<String, String> input) {
         sys_trace sysTrace = new sys_trace();
-        sysTrace.setTimespan(System.currentTimeMillis());
+        sysTrace.setTimespan(new Date());
         sysTrace.setInputDictionary(input);
         return sysTrace;
     }
@@ -53,7 +50,7 @@ public class TracePool {
                 trace.setAskchannel(GetValueByKey(trace.getInputDictionary(), "channel"));
                 trace.setAskrouter(GetValueByKey(trace.getInputDictionary(), "router"));
                 trace.setAskmethod(GetValueByKey(trace.getInputDictionary(), "method"));
-                trace.setRequest(JSON.toJSONString(trace.getInputDictionary()));
+                trace.setRequest(JSON.toJSONStringWithDateFormat(trace.getInputDictionary(),"yyyy-MM-dd HH:mm:ss.SSS"));
                 trace.setGlobalTraceId(GetValueByKey(trace.getInputDictionary(), "GlobalTraceId"));
                 trace.setUname(GetValueByKey(trace.getInputDictionary(), "uname"));
 
@@ -72,7 +69,7 @@ public class TracePool {
             inputTrace.put(Eng.NAMESPACE, "Anno.Plugs.Trace");
             inputTrace.put(Eng.CLASS, "Trace");
             inputTrace.put(Eng.METHOD, "TraceBatch");
-            inputTrace.put("traces", JSON.toJSONString(traces));
+            inputTrace.put("traces", JSON.toJSONStringWithDateFormat(traces,"yyyy-MM-dd HH:mm:ss.SSS"));
             try {
                 Connector.Invoke(inputTrace);
             } catch (Exception ex) {

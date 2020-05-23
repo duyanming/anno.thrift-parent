@@ -1,4 +1,5 @@
 import anno.thrift.client.DefaultConfigManager;
+import com.alibaba.fastjson.util.TypeUtils;
 import org.apache.thrift.TException;
 import oshiTest.oshiDemo;
 import simulate.requestTest;
@@ -11,6 +12,7 @@ import java.util.concurrent.CyclicBarrier;
 
 public class AnnoSimulateClientBoot {
   public static void main(String[] args) throws Exception {
+      TypeUtils.compatibleWithJavaBean = true;
             Rpc();
     //        new oshiDemo().Handle();
 //    new StorageDemo().Request();

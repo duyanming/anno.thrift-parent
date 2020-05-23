@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 @Data
@@ -66,7 +67,8 @@ public class sys_trace  implements Serializable {
     /**
      * 记录时间
      */
-    private long Timespan;
+    @JSONField (format="yyyy-MM-dd HH:mm:ss")
+    private Date Timespan;
     /// <summary>
     /// 请求管道
     /// </summary>

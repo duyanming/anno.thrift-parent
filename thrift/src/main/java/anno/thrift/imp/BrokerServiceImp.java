@@ -12,7 +12,7 @@ public class BrokerServiceImp implements BrokerService.Iface {
     @Override
     public String broker(Map<String, String> input) throws Throwable {
         ActionResult rlt = Engine.Transmit(input);
-        String output = JSON.toJSONString(rlt);
+        String output = JSON.toJSONStringWithDateFormat(rlt,"yyyy-MM-dd HH:mm:ss.SSS");
         return output;
     }
 }
