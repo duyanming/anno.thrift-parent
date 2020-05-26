@@ -6,7 +6,7 @@
     Anno 是一个分布式开发框架，同时支持 .net core3.1 、Java、.net frameworker4.6.1
 
 # Java service 以及 Net 程序都注册到了 服务中心
-![第1步](./doc/1.png)
+![第1步](./doc/1.jpg)
 
 # Java 调用 Java Service 和 Net Service 
 
