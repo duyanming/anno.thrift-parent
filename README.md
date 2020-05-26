@@ -1,7 +1,9 @@
 # Anno Java Demo
     Anno 分布式开发框架，此项目是Anno Java的实现，包括类库、以及服务端、客户端的实现。
     
-##  [Java 实现 ](https://github.com/duyanming/anno.thrift-parent) : https://github.com/duyanming/anno.thrift-parent
+##  [Net 实现 ](https://github.com/duyanming/dymDemo) : https://github.com/duyanming/dymDemo
+
+##  [Net 实现 ](https://github.com/duyanming/AnnoDemo) : https://github.com/duyanming/AnnoDemo
     
 ##  [Demo 在线演示地址](http://140.143.207.244) :http://140.143.207.244
     账号：anno
