@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ServerInfo {
     private static ServerInfo Default;
+    private Boolean TraceOnOff=true;
     private int TimeOut = 3000;
     private String FuncName;
     private String LocalAddress = "127.0.0.1";
