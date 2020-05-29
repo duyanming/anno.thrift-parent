@@ -54,7 +54,7 @@ public class TracePool {
                 trace.setGlobalTraceId(GetValueByKey(trace.getInputDictionary(), "GlobalTraceId"));
                 trace.setUname(GetValueByKey(trace.getInputDictionary(), "uname"));
 
-                trace.setRlt(trace.getResponse() == null ? false : (trace.getResponse().indexOf("\"Status\":true") > 0||trace.getResponse().indexOf("\"status\":true") > 0));
+                trace.setRlt(trace.getResponse() == null ? false : trace.getResponse().indexOf("tatus\":true") > 0);
 
                 if (trace.getRlt()) {
                     trace.setResponse(null);
