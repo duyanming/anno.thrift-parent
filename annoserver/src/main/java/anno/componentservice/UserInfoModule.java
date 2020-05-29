@@ -3,7 +3,6 @@ package anno.componentservice;
 import anno.componentservice.Models.UserInfo;
 import anno.componentservice.events.UserEvent;
 import anno.configuration.AnnoTheadPool;
-import anno.configuration.MyBatisPlusConfig;
 import anno.entities.SysMember;
 import anno.repository.SysMemberMapper;
 import anno.thrift.annotation.AnnoParam;
