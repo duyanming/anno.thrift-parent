@@ -4,6 +4,8 @@ import anno.thrift.annotation.AnnoParam;
 import anno.thrift.exception.AnnoArgumentNullException;
 import com.alibaba.fastjson.JSON;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
@@ -65,15 +67,16 @@ public class Engine {
           processMethods.putIfAbsent(key,methodCache);
         }).start();
       } catch (Exception ex) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
         rlt =
-            new ActionResultObject(
-                false,
-                null,
-                null,
-                "Invoke Failure. TypeName:"
-                    + ex.getClass().getTypeName()
-                    + ". Msg:"
-                    + ex.getMessage());
+                new ActionResultObject(
+                        false,
+                        null,
+                        null,
+                        "Invoke Failure. \n Msg:"
+                                + sw.toString());
       }
 
       return rlt;
@@ -201,15 +204,17 @@ public class Engine {
         rlt = (ActionResult) mc.getProcess().invoke(module, objs);
       }
       catch (Exception ex) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+
         rlt =
             new ActionResultObject(
                 false,
                 null,
                 null,
-                "Invoke Failure. TypeName:"
-                    + ex.getClass().getTypeName()
-                    + ". Msg:"
-                    + ex.getMessage());
+                "Invoke Failure. \n Msg:"
+                    + sw.toString());
       }
 
       return rlt;

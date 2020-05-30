@@ -28,7 +28,7 @@ public class MyBatisPlusConfig {
   public DataSource getDataSource() {
     DruidDataSource dataSource = new DruidDataSource();
     dataSource.setUrl(
-        "jdbc:mysql://localhost:3306/bif?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8");
+        "jdbc:mysql://127.0.0.1:3306/bif?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8");
     dataSource.setUsername("bif");
     dataSource.setPassword("123456");
     return dataSource;
