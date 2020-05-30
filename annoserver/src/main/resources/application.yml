@@ -1,6 +1,6 @@
 anno:
   #服务名称
-  appName: AnnoServerHost
+  appName: java-Anno-Service
   #服务的端口
   port: 6690
   #服务的权重
