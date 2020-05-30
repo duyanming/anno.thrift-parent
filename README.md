@@ -1,12 +1,20 @@
 # Anno Java Demo
     Anno 分布式开发框架，此项目是Anno Java的实现，包括类库、以及服务端、客户端的实现。
+    
+##  [Net 实现 ](https://github.com/duyanming/dymDemo) : https://github.com/duyanming/dymDemo
+
+##  [Net 实现 ](https://github.com/duyanming/AnnoDemo) : https://github.com/duyanming/AnnoDemo
+    
+##  [Demo 在线演示地址](http://140.143.207.244) :http://140.143.207.244
+    账号：anno
+    密码：123456
 
 # Anno 分布式开发框架
 
     Anno 是一个分布式开发框架，同时支持 .net core3.1 、Java、.net frameworker4.6.1
 
 # Java service 以及 Net 程序都注册到了 服务中心
-![第1步](./doc/1.png)
+![第1步](./doc/1.jpg)
 
 # Java 调用 Java Service 和 Net Service 
 
