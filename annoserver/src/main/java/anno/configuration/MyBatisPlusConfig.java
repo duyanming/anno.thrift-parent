@@ -43,9 +43,8 @@ public class MyBatisPlusConfig {
     @Bean(name = "sqlSessionFactory")
   public com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean sqlSessionFactory() throws IOException {
         MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean= new MybatisSqlSessionFactoryBean();
+        mybatisSqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-cfg.xml"));
         mybatisSqlSessionFactoryBean.setDataSource(getDataSource());
-        mybatisSqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis.cfg.xml"));
-
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         mybatisSqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:/mapper/*.xml"));
 

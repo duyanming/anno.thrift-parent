@@ -31,7 +31,7 @@ public class Engine {
     sb.append(input.get(Eng.CLASS));
     sb.append("Module");
 
-    String key=sb.toString();
+    String key=sb.toString()+input.get(Eng.METHOD);
     MethodCache mc = processMethods.get(key);
     if (mc != null) {
       return InvokeFromCache(mc, input);
