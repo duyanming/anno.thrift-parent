@@ -6,6 +6,8 @@ import anno.entities.SysMember;
 import anno.thrift.module.ActionResult;
 import anno.thrift.server.AnnoServer;
 import anno.thrift.server.ServerInfo;
+import anno.thrift.sysInfo.ServerStatus;
+import anno.thrift.sysInfo.UseSysInfoWatch;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
@@ -29,7 +31,8 @@ public class AnnoServerBoot {
         serverInfo.setFuncName(config.getFuncName());
         serverInfo.setMinThreads(config.getMinThreads());
         serverInfo.setMaxThreads(config.getMaxThreads());
-
+//        ServerStatus serverStatus = UseSysInfoWatch.GetServerStatus();
+//        System.out.println(serverStatus);
         new Thread(() -> {
             new AnnoServer().start(serverInfo.getPort());
         }).start();

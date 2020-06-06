@@ -1,5 +1,6 @@
 package anno.thrift.server;
 
+import anno.thrift.sysInfo.UseSysInfoWatch;
 import lombok.Data;
 
 @Data
@@ -22,6 +23,7 @@ public class ServerInfo {
     public static ServerInfo getDefault() {
         if (Default == null) {
             Default = new ServerInfo();
+            UseSysInfoWatch.SysInit();
         }
         return Default;
     }
