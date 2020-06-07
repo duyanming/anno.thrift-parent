@@ -23,13 +23,16 @@ public class UseSysInfoWatch {
         ServerStatus info = new ServerStatus();
         OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         info.MemoryTotal = osmxb.getTotalPhysicalMemorySize() / 1024.0 / 1024;
+        info.MemoryTotal = Double.parseDouble(String.format("%.2f", info.MemoryTotal));
+
         info.MemoryTotalUse = (osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024.0 / 1024;
+        info.MemoryTotalUse = Double.parseDouble(String.format("%.2f", info.MemoryTotalUse));
 
-        MemoryMXBean  memoryMXBean=ManagementFactory.getMemoryMXBean();
-        MemoryUsage memoryUsage=memoryMXBean.getHeapMemoryUsage();
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage memoryUsage = memoryMXBean.getHeapMemoryUsage();
 
-        long usedMemorySize=memoryUsage.getUsed();
-        info.Memory=usedMemorySize/1024/1024;
+        long usedMemorySize = memoryUsage.getUsed();
+        info.Memory = usedMemorySize / 1024 / 1024;
 
         SystemInfo systemInfo = new SystemInfo();
         CentralProcessor processor = systemInfo.getHardware().getProcessor();
@@ -59,10 +62,14 @@ public class UseSysInfoWatch {
                 - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
         long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
 
-        info.CpuTotalUse =((cSys+user) * 1.0 / totalCpu) * 100;
+        info.CpuTotalUse = ((totalCpu- idle) * 1.0 / totalCpu) * 100;
+        info.CpuTotalUse= Double.parseDouble(String.format("%.2f",info.CpuTotalUse));
+
         info.CurrentTime = new Date();
 
         info.Cpu = (user * 1.0 / totalCpu) * 100;
+        info.Cpu= Double.parseDouble(String.format("%.2f",info.Cpu));
+
         long runtime = System.currentTimeMillis() - startTime;
 
         long day = runtime / (24 * 60 * 60 * 1000);
