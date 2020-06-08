@@ -29,7 +29,7 @@ public class AnnoServer {
         init();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         try {
-            TServerTransport transport = new TServerSocket(port);
+            TServerTransport transport = new TServerSocket(port,serverInfo.getTimeOut());
             TThreadPoolServer.Args tArgs = new TThreadPoolServer.Args(transport);
             tArgs.processor(processor);
             tArgs.protocolFactory(protocolFactory);
