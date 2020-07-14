@@ -5,7 +5,7 @@ import anno.componentservice.events.UserEvent;
 import anno.configuration.AnnoTheadPool;
 import anno.entities.SysMember;
 import anno.repository.SysMemberMapper;
-import anno.thrift.annotation.AnnoParam;
+import anno.thrift.annotation.AnnoInfo;
 import anno.thrift.module.ActionResult;
 import anno.thrift.module.BaseModule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ public class UserInfoModule extends BaseModule {
     private ApplicationEventPublisher publisher;
     @Autowired
     private  SysMemberMapper sysMemberMapper;
+    @AnnoInfo(desc = "用户信息")
     public ActionResult<Object> GetUserInfo(GetUserInfoRequestDto queryInput){
         UserInfo userinfo=new UserInfo();
         userinfo.setAge(18);
@@ -37,7 +38,8 @@ public class UserInfoModule extends BaseModule {
        String msg= "this message from Java Server UserInfoModule.";
         return new ActionResult<Object>(true, outputData, output, msg);
     }
-    public ActionResult<Object> HelloWorld(@AnnoParam(name = "name",required = false,defaultValue = "Anno Default Value") String anno){
+    @AnnoInfo(desc = "你好世界")
+    public ActionResult<Object> HelloWorld(@AnnoInfo(desc = "名称",name = "name",required = false,defaultValue = "Anno Default Value") String anno){
         String greetings="Hello "+anno+" I am Anno!";
         return  new ActionResult<>(true,greetings);
     }
@@ -66,7 +68,7 @@ public class UserInfoModule extends BaseModule {
 //        publisher.publishEvent(uv);
     }
 
-
+    @AnnoInfo(desc = "根据ID获取用户信息")
     public ActionResult<SysMember> GetUserAutowired(long id) {
         SysMember member=sysMemberMapper.selectById(id);
         return new ActionResult<>(true,member);

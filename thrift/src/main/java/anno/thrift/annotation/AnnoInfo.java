@@ -5,11 +5,13 @@ import java.lang.annotation.*;
 /**
  * @author duyanming
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface AnnoParam {
+public @interface AnnoInfo {
     String name() default "";
+
+    String desc() default "";
 
     boolean required() default true;
 

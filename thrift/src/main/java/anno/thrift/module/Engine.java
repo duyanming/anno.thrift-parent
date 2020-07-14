@@ -1,6 +1,6 @@
 package anno.thrift.module;
 
-import anno.thrift.annotation.AnnoParam;
+import anno.thrift.annotation.AnnoInfo;
 import anno.thrift.exception.AnnoArgumentNullException;
 import com.alibaba.fastjson.JSON;
 
@@ -111,7 +111,7 @@ public class Engine {
     for (int i = 0; i < params.length; i++) {
       String typeName = params[i].getType().getName();
       String paramName = params[i].getName();
-      AnnoParam annotation = params[i].getAnnotation(AnnoParam.class);
+      AnnoInfo annotation = params[i].getAnnotation(AnnoInfo.class);
       if (annotation != null) {
         if (annotation.name() != "") {
           paramName = annotation.name();

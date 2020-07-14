@@ -6,6 +6,6 @@ import lombok.Data;
 public class ParametersValue {
     private String name;
     private int position ;
-    public String desc;
+    private String desc;
     private String parameterType ;
 }

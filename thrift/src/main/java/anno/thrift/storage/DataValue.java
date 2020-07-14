@@ -7,6 +7,6 @@ import java.util.List;
 @Data
 public class DataValue {
     private String name;
-    public String desc;
+    private String desc;
     private List<ParametersValue> parameters;
 }

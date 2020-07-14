@@ -25,7 +25,7 @@ public class UseSysInfoWatch {
         info.MemoryTotal = osmxb.getTotalPhysicalMemorySize() / 1024.0 / 1024;
         info.MemoryTotal = Double.parseDouble(String.format("%.2f", info.MemoryTotal));
 
-        info.MemoryTotalUse = (osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024.0 / 1024;
+        info.MemoryTotalUse = (osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024 / 1024;
         info.MemoryTotalUse = Double.parseDouble(String.format("%.2f", info.MemoryTotalUse));
 
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();

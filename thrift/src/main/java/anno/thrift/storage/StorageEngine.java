@@ -14,7 +14,7 @@ import java.util.HashMap;
 public  class StorageEngine {
     public static String Invoke(HashMap<String, String> input) throws TException {
         ServerInfo serverInfo = ServerInfo.getDefault();
-        TTransport transport = new TSocket(serverInfo.getLocalAddress(), serverInfo.getPort(), 30000);
+        TTransport transport = new TSocket(serverInfo.getCenterIp(), serverInfo.getCenterPort(), 30000);
         TProtocol protocol = new TBinaryProtocol(transport);
         BrokerCenter.Client client = new BrokerCenter.Client(protocol);
         transport.open();

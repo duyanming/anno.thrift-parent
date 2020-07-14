@@ -16,6 +16,9 @@ public class ServerInfo {
     private int MinThreads = 4;
     private int MaxThreads = 500;
 
+    private String centerIp;
+    private int centerPort;
+
     private ServerInfo() {
 
     }

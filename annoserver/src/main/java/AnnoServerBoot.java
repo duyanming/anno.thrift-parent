@@ -1,13 +1,11 @@
 import anno.componentservice.UserInfoModule;
 import anno.configuration.AnnoConfig;
 import anno.configuration.AopConfig;
-import anno.configuration.MyBatisPlusConfig;
 import anno.entities.SysMember;
+import anno.infrastructure.RouterHelper;
 import anno.thrift.module.ActionResult;
 import anno.thrift.server.AnnoServer;
 import anno.thrift.server.ServerInfo;
-import anno.thrift.sysInfo.ServerStatus;
-import anno.thrift.sysInfo.UseSysInfoWatch;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
@@ -19,10 +17,6 @@ public class AnnoServerBoot {
 //        MybatisPlus();
         AopConfig.Default();
         AnnoConfig config=new AnnoConfig("application.yml");
-         /*
-        配置服务基础信息 从配置文件读取
-        为了测试目前写死
-         */
         ServerInfo serverInfo = ServerInfo.getDefault();
         serverInfo.setAppName(config.getAppName());
         serverInfo.setPort(config.getPort());
@@ -31,13 +25,14 @@ public class AnnoServerBoot {
         serverInfo.setFuncName(config.getFuncName());
         serverInfo.setMinThreads(config.getMinThreads());
         serverInfo.setMaxThreads(config.getMaxThreads());
-//        ServerStatus serverStatus = UseSysInfoWatch.GetServerStatus();
-//        System.out.println(serverStatus);
+        serverInfo.setCenterIp(config.getCenterIp());
+        serverInfo.setCenterPort(config.getCenterPort());
         new Thread(() -> {
             new AnnoServer().start(serverInfo.getPort());
         }).start();
 
         anno.thrift.server.Register.ToCenter(config.getCenterIp(), config.getCenterPort(), config.getReTry());
+        RouterHelper.registerRouterInfo();
         while (true) {
             Thread.sleep(3000);
         }

@@ -20,14 +20,15 @@ public class AnnoServer {
     protected final Logger logger = LoggerFactory.getLogger(AnnoServer.class);
     private TBinaryProtocol.Factory protocolFactory;
     private TTransportFactory transportFactory;
-    public void init() {
+    private void init() {
         protocolFactory = new TBinaryProtocol.Factory();
         transportFactory = new TTransportFactory();
     }
     public void start(int port) {
         BrokerService.Processor  processor = new BrokerService.Processor<BrokerService.Iface>(new BrokerServiceImp());
         init();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        //设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             TServerTransport transport = new TServerSocket(port,serverInfo.getTimeOut());
             TThreadPoolServer.Args tArgs = new TThreadPoolServer.Args(transport);
@@ -37,7 +38,7 @@ public class AnnoServer {
             tArgs.minWorkerThreads(serverInfo.getMinThreads());
             tArgs.maxWorkerThreads(serverInfo.getMaxThreads());
             TServer server = new TThreadPoolServer(tArgs);
-            System.out.println(df.format(new Date())+"--------Anno Service started successfully, Port="+port);
+            System.out.println(df.format(new Date())+"--------Anno Service started successfully, Port:"+port);
             server.serve();
         } catch (Exception e) {
             logger.error(df.format(new Date())+"--------Anno Service startup failure", e);
