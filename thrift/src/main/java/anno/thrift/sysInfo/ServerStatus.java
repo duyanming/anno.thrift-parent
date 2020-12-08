@@ -4,6 +4,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class ServerStatus {
     @JSONField(name="RunTime")
@@ -22,4 +24,6 @@ public class ServerStatus {
     public double MemoryTotalUse;
     @JSONField(name="CpuTotalUse")
     public double CpuTotalUse;
+    @JSONField(name="Drives")
+    public List<AnnoDrive> Drives;
 }

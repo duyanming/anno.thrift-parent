@@ -4,12 +4,15 @@ import com.sun.management.OperatingSystemMXBean;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryManagerMXBean;
 import java.lang.management.MemoryUsage;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class UseSysInfoWatch {
@@ -62,13 +65,13 @@ public class UseSysInfoWatch {
                 - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
         long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
 
-        info.CpuTotalUse = ((totalCpu- idle) * 1.0 / totalCpu) * 100;
-        info.CpuTotalUse= Double.parseDouble(String.format("%.2f",info.CpuTotalUse));
+        info.CpuTotalUse = ((totalCpu - idle) * 1.0 / totalCpu) * 100;
+        info.CpuTotalUse = Double.parseDouble(String.format("%.2f", info.CpuTotalUse));
 
         info.CurrentTime = new Date();
 
         info.Cpu = (user * 1.0 / totalCpu) * 100;
-        info.Cpu= Double.parseDouble(String.format("%.2f",info.Cpu));
+        info.Cpu = Double.parseDouble(String.format("%.2f", info.Cpu));
 
         long runtime = System.currentTimeMillis() - startTime;
 
@@ -77,6 +80,25 @@ public class UseSysInfoWatch {
         long minute = (runtime % ((60 * 60 * 1000))) / (60 * 1000);
         long second = (runtime % ((60 * 1000))) / (1000);
         info.RunTime = day + ":" + hour + ":" + minute + ":" + second;
-        return info;
+        return GetDrivesInfo(info);
+    }
+
+    public static ServerStatus GetDrivesInfo(ServerStatus serverStatus) {
+        File[] disks = File.listRoots();
+        List<AnnoDrive> annoDrives = new ArrayList<>();
+        for (File file : disks) {
+            long totalSpace = file.getTotalSpace();
+            //磁盘大于1M
+            if (totalSpace >= 1024 * 1024) {
+                long freeSpace = file.getFreeSpace();
+                AnnoDrive drive = new AnnoDrive();
+                drive.setName(file.getPath());
+                drive.setFree(Math.round((freeSpace*1000 / 1024 / 1024 / 1024))/1000.000);
+                drive.setTotal(Math.round((totalSpace*1000 / 1024 / 1024 / 1024))/1000.000);
+                annoDrives.add(drive);
+            }
+        }
+        serverStatus.setDrives(annoDrives);
+        return serverStatus;
     }
 }
