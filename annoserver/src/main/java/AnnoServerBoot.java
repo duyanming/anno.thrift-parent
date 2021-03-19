@@ -15,8 +15,8 @@ public class AnnoServerBoot {
 //        SpringAop();
 //        SpringAopPublishMsg();
 //        MybatisPlus();
-        AopConfig.Default();
-        AnnoConfig config=new AnnoConfig("application.yml");
+        ApplicationContext  context= AopConfig.Default();
+        AnnoConfig config=  (AnnoConfig)context.getBean("AnnoConfig");
         ServerInfo serverInfo = ServerInfo.getDefault();
         serverInfo.setAppName(config.getAppName());
         serverInfo.setPort(config.getPort());

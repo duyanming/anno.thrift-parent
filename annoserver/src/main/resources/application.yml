@@ -19,3 +19,46 @@ anno:
   centerPort: 6660
   #注册到注册中心失败后重试次数
   reTry: 30
+spring:
+  #数据库配置
+  datasource:
+    druid:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://127.0.0.1:3306/bif?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+      username: bif
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      #     获取连接时最大等待时间，单位毫秒
+      max-wait: 5000
+      #      最大连接池数量
+      max-active: 80
+      #      初始化时建立物理连接的个数
+      initial-size: 20
+      #      最小连接池数量
+      min-idle: 40
+      #Destory线程中如果检测到当前连接的最后活跃时间和当前时间的差值大于minEvictableIdleTimeMillis，则关闭当前连接。
+      min-evictable-idle-time-millis: 600000
+      #      testWhileIdle的判断依据，详细看testWhileIdle属性的说明
+      time-between-eviction-runs-millis: 2000
+      #用来检测连接是否有效的sql，要求是一个查询语句。
+      validation-query: select 1
+      #      申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      #      申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      #      归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      test-on-return: false
+      #      属性类型是字符串，通过别名的方式配置扩展插件
+      filters: stat,wall
+      #      开启慢sql，并设置时间
+      filter:
+        stat.log-slow-sql: true
+        stat.slow-sql-millis: 2000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+mybatis:
+  mapper-locations: "mapper/*.xml"
