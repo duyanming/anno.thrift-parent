@@ -80,13 +80,14 @@ public class RouterHelper {
         // 设置日期格式
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HashMap<String, String> delInput = new HashMap<>();
+        delInput.put(StorageCommand.COMMAND,StorageCommand.APIDOCCOMMAND);
         delInput.put(CONST.Opt, CONST.DeleteByApp);
         delInput.put(CONST.App, serverInfo.getAppName());
         AnnoDataResult del = StorageEngine.InvokeObj(delInput, AnnoDataResult.class);
         if (!del.getStatus()) {
           System.out.println(df.format(new Date()) + ":" + JSON.toJSONString(del));
         }
-
+        input.put(StorageCommand.COMMAND,StorageCommand.APIDOCCOMMAND);
         input.put(CONST.Opt, CONST.UpsertBatch);
         input.put(CONST.Data, JSON.toJSONString(routings));
         AnnoDataResult rlt = StorageEngine.InvokeObj(input, AnnoDataResult.class);
