@@ -238,7 +238,7 @@ public class Connector {
                 pools.put(microCache.getId(), connectionPool);
               }else {
                 ConnectionPool pool = pools.get(microCache.getId());
-                //pool.getFactory().
+                ((ConnectionFactory)pool.getFactory()).setTimeOut(microCache.getMi().timeout);
               }
             });
         microCaches=_microCaches;
