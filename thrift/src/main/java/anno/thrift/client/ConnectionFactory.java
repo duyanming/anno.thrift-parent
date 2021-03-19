@@ -16,9 +16,14 @@ public class ConnectionFactory extends BasePooledObjectFactory<TTransportExt> {
     @Getter
     private Integer Port;
 
-    public ConnectionFactory(String ip, Integer port) {
+    @Getter
+    @Setter
+    private Integer TimeOut;
+
+    public ConnectionFactory(String ip, Integer port,Integer timeOut) {
         this.Ip = ip;
         this.Port = port;
+        this.TimeOut=timeOut;
     }
 
 
@@ -28,8 +33,7 @@ public class ConnectionFactory extends BasePooledObjectFactory<TTransportExt> {
         TSocket transport = new TSocket(this.Ip, this.Port);
         TBinaryProtocol protocol = new TBinaryProtocol(transport);
         BrokerService.Client client = new BrokerService.Client(protocol);
-        transport.setConnectTimeout(3000);
-        transport.setTimeout(ServerInfo.getDefault().getTimeOut());
+        transport.setTimeout(this.TimeOut);
         if(transport.isOpen()==false){
             transport.open();
         }

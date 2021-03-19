@@ -25,7 +25,7 @@ public class Register {
         String ipsStr = GetLocalIps();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         try {
-            transport = new TSocket(tIp, tPort, 3000);
+            transport = new TSocket(tIp, tPort, 5000);
             TProtocol protocol = new TBinaryProtocol(transport);
             client = new BrokerCenter.Client(protocol);
 
