@@ -1,6 +1,5 @@
-package dynamicProxy;
+package anno.thrift.dynamicProxy;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 
 /** @author admin */

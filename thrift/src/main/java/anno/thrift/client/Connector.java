@@ -243,7 +243,11 @@ public class Connector {
             });
         microCaches=_microCaches;
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
+        if(transport.isOpen()){
+            transport.close();
+        }
       transport =
           new TSocket(ServerInfo.getDefault().getLocalAddress(), ServerInfo.getDefault().getPort());
       protocol = new TBinaryProtocol(transport);
