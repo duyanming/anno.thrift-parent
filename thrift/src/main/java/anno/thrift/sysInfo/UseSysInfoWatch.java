@@ -3,6 +3,7 @@ package anno.thrift.sysInfo;
 import com.sun.management.OperatingSystemMXBean;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
+import oshi.software.os.OSProcess;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
@@ -26,6 +27,7 @@ public class UseSysInfoWatch {
 
   public static ServerStatus GetServerStatus() {
     ServerStatus info = new ServerStatus();
+    SystemInfo systemInfo = new SystemInfo();
     OperatingSystemMXBean osmxb =
         (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     info.MemoryTotal = osmxb.getTotalPhysicalMemorySize() / 1024.0 / 1024;
@@ -35,13 +37,13 @@ public class UseSysInfoWatch {
         (osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024 / 1024;
     info.MemoryTotalUse = Double.parseDouble(String.format("%.2f", info.MemoryTotalUse));
 
-    MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-    MemoryUsage memoryUsage = memoryMXBean.getHeapMemoryUsage();
+    String pid = ManagementFactory.getRuntimeMXBean().getName();
+    pid = pid.substring(0, pid.indexOf("@"));
+    OSProcess process= systemInfo.getOperatingSystem().getProcess(Integer.parseInt(pid));
+    long usedMemorySize = process.getResidentSetSize();
 
-    long usedMemorySize = memoryUsage.getUsed();
-    info.Memory = usedMemorySize / 1024 / 1024;
+    info.Memory = (usedMemorySize) / 1024 / 1024;
 
-    SystemInfo systemInfo = new SystemInfo();
     CentralProcessor processor = systemInfo.getHardware().getProcessor();
     long[] prevTicks = processor.getSystemCpuLoadTicks();
 

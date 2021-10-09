@@ -5,7 +5,10 @@ import oshi.SystemInfo;
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
 import oshi.hardware.CentralProcessor;
+import oshi.software.os.OSProcess;
 
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
@@ -21,6 +24,23 @@ public class oshiDemo {
         String usedMemory = new DecimalFormat("#.##").format((osmxb.getTotalPhysicalMemorySize() - osmxb.getFreePhysicalMemorySize()) / 1024.0 / 1024 / 1024) + "G";
         System.out.println("已使用的物理内存："+usedMemory);
 
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage memoryUsage = memoryMXBean.getHeapMemoryUsage();
+
+        long usedMemorySize = memoryUsage.getUsed();
+        System.out.println("程序使用的内存HeapMemoryUsage："+(usedMemorySize / 1024 / 1024));
+
+
+        MemoryUsage memoryUsageNonHeap = memoryMXBean.getNonHeapMemoryUsage();
+
+        long memoryUsageSizeNonHeap = memoryUsageNonHeap.getUsed();
+        System.out.println("程序使用的内存NonHeap："+(memoryUsageSizeNonHeap / 1024 / 1024));
+
+        String pid = ManagementFactory.getRuntimeMXBean().getName();
+        pid = pid.substring(0, pid.indexOf("@"));
+        System.out.println("pid:"+pid);
+        OSProcess process= systemInfo.getOperatingSystem().getProcess(Integer.parseInt(pid));
+        System.out.println("Memory Usage:"+(process.getResidentSetSize()/1024/1024));
         printlnCpuInfo(systemInfo);
     }
     /**
