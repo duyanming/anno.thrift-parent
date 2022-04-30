@@ -6,7 +6,7 @@ anno:
   #服务的权重
   weight: 1
   #服务的超时时间
-  timeOut: 20000
+  timeOut: 0
   #服务的功能Tag
   funcName: anno.componentservice
   #服务端最新闲置线程数
@@ -16,7 +16,7 @@ anno:
   #注册中地址
   centerIp: 127.0.0.1
   #注册中心端口
-  centerPort: 6660
+  centerPort: 7010
   #注册到注册中心失败后重试次数
   reTry: 30
 spring:
