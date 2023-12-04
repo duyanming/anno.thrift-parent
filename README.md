@@ -8,7 +8,7 @@
 
 ![Dashboard](https://s1.ax1x.com/2020/09/26/0iRcIU.png)
 
-[在线演示](http://140.143.207.244) :http://140.143.207.244
+[在线演示](http://anno.liqingxi.cn/) :http://anno.liqingxi.cn
 
 [示例项目](https://github.com/duyanming/Viper) :https://github.com/duyanming/Viper
 # Java service 以及 Net 程序都注册到了 服务中心
