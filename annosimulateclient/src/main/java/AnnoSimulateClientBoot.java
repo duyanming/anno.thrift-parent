@@ -21,7 +21,7 @@ public class AnnoSimulateClientBoot {
 
   private static void Rpc() throws TException, BrokenBarrierException, InterruptedException {
     DefaultConfigManager.SetDefaultConnectionPool(500, 4, 50);
-    DefaultConfigManager.SetDefaultConfiguration("AnnoClient", "127.0.0.1", 6660);
+    DefaultConfigManager.SetDefaultConfiguration("AnnoClient", "127.0.0.1", 7010);
     Integer count=10;
     CyclicBarrier cb = new CyclicBarrier(count + 1);
     for (int i = 0; i < count; i++) {

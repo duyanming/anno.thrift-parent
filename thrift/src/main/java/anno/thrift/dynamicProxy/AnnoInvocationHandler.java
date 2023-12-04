@@ -48,25 +48,25 @@ public class AnnoInvocationHandler implements InvocationHandler {
 
         AnnoProxy annoProxy = method.getDeclaringClass().getAnnotation(AnnoProxy.class);
         if (annoProxy != null) {
-            if (annoProxy.channel() != null && annoProxy.channel() != "") {
+            if (annoProxy.channel() != null && !annoProxy.channel().equals("")) {
                 _package = annoProxy.channel();
             }
-            if (annoProxy.router() != null && annoProxy.router() != "") {
+            if (annoProxy.router() != null && !annoProxy.router().equals("")) {
                 _class = annoProxy.router();
             }
-            if (annoProxy.method() != null && annoProxy.method() != "") {
+            if (annoProxy.method() != null && !annoProxy.method() .equals("")) {
                 _method = annoProxy.method();
             }
         }
         annoProxy = method.getAnnotation(AnnoProxy.class);
         if (annoProxy != null) {
-            if (annoProxy.channel() != null && annoProxy.channel() != "") {
+            if (annoProxy.channel() != null && !annoProxy.channel().equals("")) {
                 _package = annoProxy.channel();
             }
-            if (annoProxy.router() != null && annoProxy.router() != "") {
+            if (annoProxy.router() != null && !annoProxy.router().equals("")) {
                 _class = annoProxy.router();
             }
-            if (annoProxy.method() != null && annoProxy.method() != "") {
+            if (annoProxy.method() != null && !annoProxy.method() .equals("")) {
                 _method = annoProxy.method();
             }
         }

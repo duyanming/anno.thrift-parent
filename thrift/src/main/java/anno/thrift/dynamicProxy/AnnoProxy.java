@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * @author duyanming
  */
-@Target({ElementType.PARAMETER, ElementType.METHOD})
+@Target({ElementType.PARAMETER,ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 /***
